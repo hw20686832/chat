@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title id='Description'>Demo X</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="{{ static_url('bower_components/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
+</head>
+<body class='default'>
+<div class="container">
+<div class="row">
+  {% for user in users %}
+  <div class="col-xs-12 col-md-3">
+    <a href="/chat?dst={{ user }}" class="thumbnail">
+      <span class="glyphicon glyphicon-user span-lg" aria-hidden="true"></span>
+      <span class="span-lg">{{ user }}</span>
+    </a>
+  </div>
+  {% end %}
+</div>
+</div>
+</body>
+</html>
+<script src="{{ static_url('bower_components/jquery/dist/jquery.min.js') }}"></script>
+<script src="{{ static_url('bower_components/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+<script type="text/javascript">
+$(document).ready(function () {
+
+});
+</script>

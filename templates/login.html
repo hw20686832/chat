@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title id='Description'>Demo X</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="{{ static_url('bower_components/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
+</head>
+<body class='default'>
+<div class="container">
+  <div class="row">
+    <form class="form-inline" method="post" action="/login">
+      <div class="form-group">
+      <div class="input-group">
+        <input type="text" name="uid" class="form-control input-lg" placeholder="Pick a name">
+        <span class="input-group-btn">
+          <button class="btn btn-primary btn-lg" type="submit">Go!</button>
+        </span>
+      </div><!-- /input-group -->
+      </div>
+      {% module xsrf_form_html() %}
+    </form>
+  </div>
+</div>
+</body>
+</html>
+<script src="{{ static_url('bower_components/jquery/dist/jquery.min.js') }}"></script>
+<script src="{{ static_url('bower_components/bootstrap/dist/js/bootstrap.min.js') }}"></script>
