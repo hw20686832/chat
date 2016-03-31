@@ -13,8 +13,9 @@ $(document).ready(function() {
 
 function newMessage(form) {
     var message = form.formToDict();
-    console.log(message);
-    updater.socket.send(JSON.stringify(message));
+    if (message.body.length > 0) {
+        updater.socket.send(JSON.stringify(message));
+    }
     form.find("input[id=message]").val("").select();
 }
 
@@ -42,8 +43,13 @@ var updater = {
 
     showMessage: function(message) {
         var existing = $("#m" + message.id);
+        var src = $("input[name=src]").val();
         if (existing.length > 0) return;
         var node = $(message.html);
+
+        if (message.src === src) {
+            node.addClass("float-right");
+        }
         node.hide();
         $("#inbox").append(node);
         node.slideDown();

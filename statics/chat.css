@@ -10,11 +10,12 @@
 }
 
 .msg-container {
-    min-height:100%;
-    height: auto !important;
-    height: 100%; /*IE6²»Ê¶±ðmin-height*/
-    position: relative;
-    left: 20px;
+    height: 100%;
+    bottom: 200px;
+}
+
+.float-right span {
+    float: right !important;
 }
 
 .msg-input {

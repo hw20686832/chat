@@ -9,16 +9,14 @@
 <body class='default'>
 <nav
 <div class="container">
-  <div class="row">
+
     <form action="/a/message/new" method="post" id="messageform">
-    <div class="form-group">
-    <div class="input-group">
-      <div class="row" id="inbox">
+      <div id="inbox" class="msg-container">
       {% for message in obj['messages'] %}
         {% include "message.html" %}
       {% end %}
       </div>
-    </div>
+    <div class="form-group">
     <div class="input-group msg-input">
       <input type="text" id="message" name="body" class="form-control input-lg">
       <span class="input-group-btn">
@@ -31,7 +29,7 @@
     </div><!-- /input-group -->
     </div><!-- /form-group -->
     </form>
-  </div>
+
 </div>
 </body>
 </html>
