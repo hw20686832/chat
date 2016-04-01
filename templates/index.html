@@ -13,6 +13,7 @@
     <a href="/chat?dst={{ user }}" class="thumbnail">
       <span class="glyphicon glyphicon-user span-lg" aria-hidden="true"></span>
       <span class="span-lg">{{ user }}</span>
+      <span class="badge hidden" id="badge">0</span>
     </a>
   </div>
   {% end %}
@@ -22,8 +23,4 @@
 </html>
 <script src="{{ static_url('bower_components/jquery/dist/jquery.min.js') }}"></script>
 <script src="{{ static_url('bower_components/bootstrap/dist/js/bootstrap.min.js') }}"></script>
-<script type="text/javascript">
-$(document).ready(function () {
-
-});
-</script>
+<script src="{{ static_url('main.js') }}"></script>

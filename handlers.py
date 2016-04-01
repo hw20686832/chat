@@ -60,15 +60,33 @@ class Tunnel(object):
         return Tunnel(msg_from=self.msg_to, msg_to=self.msg_from)
 
 
-class PipHandler(WebSocketHandler):
-    user_pool = {}
-
+class BaseSockHandler(WebSocketHandler):
     @property
     def redis(self):
         return self.application.redis
 
     def get_current_user(self):
         return self.get_secure_cookie("user")
+
+
+class MainSockHandler(BaseSockHandler):
+    main_pool = {}
+
+    def open(self):
+        print("User login with sock %s" % self.current_user)
+        self.load_unread()
+        MainSockHandler.main_pool[self.current_user] = self
+
+    def load_unread(self):
+        keys = "message:*->%s" % self.current_user
+        for key in self.redis.keys(keys):
+            name = key.split("->")[-1]
+            num = self.redis.zcard(key)
+            self.write_message(json.dumps({'name': name, 'num': num}))
+
+
+class PipHandler(BaseSockHandler):
+    user_pool = {}
 
     def open(self):
         dst = self.get_argument('dst')
@@ -94,8 +112,13 @@ class PipHandler(WebSocketHandler):
         if dst:
             PipHandler.send(dst, msg)
         else:
-            self.redis.zadd("message:%s->%s" % self.tunnel,
-                            json.dumps(msg), time.time())
+            self.redis.zadd(
+                "message:%s->%s" % self.tunnel,
+                json.dumps(msg), time.time()
+            )
+            main_dst = MainSockHandler.main_pool.get(dst)
+            if main_dst:
+                main_dst.write_message(json.dumps({'name': dst, 'num': 1}))
 
     @staticmethod
     def send(obj, msg):
