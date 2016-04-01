@@ -16,7 +16,7 @@ class MyApplication(Application):
             (r"/", IndexHandler),
             (r"/login", LoginHandler),
             (r"/chat", ChatHandler),
-            (r"/update", MainSockHandler)
+            (r"/update", MainSockHandler),
             (r"/pip", PipHandler),
         ]
         config = dict(
