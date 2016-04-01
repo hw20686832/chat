@@ -28,13 +28,9 @@ class MyApplication(Application):
             autoescape=None,
             debug=settings.DEBUG
         )
-        Application.__init__(self, handlers, **config)
 
-        self.redis = redis.Redis(
-            host=settings.REDIS_HOST,
-            port=settings.REDIS_PORT,
-            db=settings.REDIS_DB
-        )
+        Application.__init__(self, handlers, **config)
+        self.redis = redis.Redis(**settings.REDIS_CONF)
 
 
 def run():

@@ -9,6 +9,8 @@ TEMPLATE_ROOT = 'templates'
 STATIC_ROOT = 'statics'
 
 # redis
-REDIS_HOST = 'localhost'
-REDIS_PORT = 6379
-REDIS_DB = 0
+REDIS_CONF = {
+    "host": "localhost",
+    "port": 6379,
+    "db": 0,
+}
