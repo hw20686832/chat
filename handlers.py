@@ -67,9 +67,8 @@ class PipHandler(WebSocketHandler):
     def redis(self):
         return self.application.redis
 
-    @property
-    def current_user(self):
-        return self.get_secure_cookie('user')
+    def get_current_user(self):
+        return self.get_secure_cookie("user")
 
     def open(self):
         dst = self.get_argument('dst')
