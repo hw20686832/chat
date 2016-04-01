@@ -48,18 +48,6 @@ class ChatHandler(BaseHandler):
         self.render("chat.html", obj=obj)
 
 
-class Tunnel(object):
-    msg_from = None
-    msg_to = None
-
-    def __init__(self, msg_from=None, msg_to=None):
-        self.msg_from = msg_from
-        self.msg_to = msg_to
-
-    def reverse(self):
-        return Tunnel(msg_from=self.msg_to, msg_to=self.msg_from)
-
-
 class BaseSockHandler(WebSocketHandler):
     @property
     def redis(self):
@@ -74,15 +62,13 @@ class MainSockHandler(BaseSockHandler):
 
     def open(self):
         print("User login with sock %s" % self.current_user)
-        self.load_unread()
-        MainSockHandler.main_pool[self.current_user] = self
-
-    def load_unread(self):
         keys = "message:*->%s" % self.current_user
         for key in self.redis.keys(keys):
-            name = key.split("->")[-1]
+            name = key.split("->")[0].split(":")[-1]
             num = self.redis.zcard(key)
             self.write_message(json.dumps({'name': name, 'num': num}))
+
+        MainSockHandler.main_pool[self.current_user] = self
 
     def on_close(self):
         del MainSockHandler.main_pool[self.current_user]
@@ -119,9 +105,11 @@ class PipHandler(BaseSockHandler):
                 "message:%s->%s" % self.tunnel,
                 json.dumps(msg), time.time()
             )
-            main_dst = MainSockHandler.main_pool.get(dst)
+            main_dst = MainSockHandler.main_pool.get(msg['dst'])
             if main_dst:
-                main_dst.write_message(json.dumps({'name': dst, 'num': 1}))
+                main_dst.write_message(
+                    json.dumps({'name': self.current_user, 'num': 1})
+                )
 
     @staticmethod
     def send(obj, msg):

@@ -17,10 +17,12 @@ var updater = {
     },
 
     updateMessage: function(message) {
-        $("#badge").html(message.num);
-        var num = $("#badge").html();
+        var num = Number($("#badge-" + message.name).text());
+        num += message.num;
+        $("#badge-" + message.name).text(num);
+
         if (num != 0) {
-            $("#badge").show();
+            $("#badge-" + message.name).show();
         }
     }
 };
