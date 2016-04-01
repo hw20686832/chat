@@ -7,7 +7,7 @@ from tornado.ioloop import IOLoop
 from tornado.web import Application
 
 import settings
-from handlers import IndexHandler, ChatHandler, PipHandler, LoginHandler
+from handlers import *
 
 
 class MyApplication(Application):
@@ -16,6 +16,7 @@ class MyApplication(Application):
             (r"/", IndexHandler),
             (r"/login", LoginHandler),
             (r"/chat", ChatHandler),
+            (r"/update", MainSockHandler)
             (r"/pip", PipHandler),
         ]
         config = dict(
