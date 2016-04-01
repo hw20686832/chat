@@ -84,6 +84,9 @@ class MainSockHandler(BaseSockHandler):
             num = self.redis.zcard(key)
             self.write_message(json.dumps({'name': name, 'num': num}))
 
+    def on_close(self):
+        del MainSockHandler.main_pool[self.current_user]
+
 
 class PipHandler(BaseSockHandler):
     user_pool = {}
