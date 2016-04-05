@@ -86,7 +86,7 @@ class PipHandler(BaseSockHandler):
 
     def load_unread(self):
         key = "message:%s->%s" % self.tunnel[::-1]
-        for message in self.redis.zrevrange(key, 0, -1):
+        for message in self.redis.zrange(key, 0, -1):
             PipHandler.send(self, json.loads(message))
             self.redis.zrem(key, message)
 
